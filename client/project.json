@@ -1,27 +1,27 @@
 {
   "name": "gemini-ai-bot",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "apps/gemini-ai-bot/src",
+  "sourceRoot": "client/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/gemini-ai-bot",
-        "browser": "apps/gemini-ai-bot/src/main.ts",
+        "outputPath": "dist/client",
+        "browser": "client/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/gemini-ai-bot/tsconfig.app.json",
+        "tsConfig": "client/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/gemini-ai-bot/public"
+            "input": "client/public"
           }
         ],
-        "styles": ["apps/gemini-ai-bot/src/styles.scss"]
+        "styles": ["client/src/styles.scss"]
       },
       "configurations": {
         "production": {
@@ -74,7 +74,7 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "gemini-ai-bot:build",
-        "staticFilePath": "dist/apps/gemini-ai-bot/browser",
+        "staticFilePath": "dist/client/browser",
         "spa": true
       }
     }
