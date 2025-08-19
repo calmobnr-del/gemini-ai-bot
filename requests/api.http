@@ -4,5 +4,5 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "message": "Привіт!"
+  "message": "What are the best practices for learning a new programming language?"
 }
