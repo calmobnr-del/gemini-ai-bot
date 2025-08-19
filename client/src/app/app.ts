@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcome } from './nx-welcome';
+import { Button } from '@gemini-ai-bot/ui';
+import { Header } from '../../../shared/src/lib/components/header/header';
+
 
 @Component({
-  imports: [NxWelcome, RouterModule],
+  imports: [RouterModule, Button, Header],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',

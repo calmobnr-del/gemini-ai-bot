@@ -1,8 +1,8 @@
 {
-  "name": "ui",
+  "name": "lib",
   "$schema": "../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "shared/src",
-  "prefix": "lib",
+  "prefix": "lib-bot",
   "projectType": "library",
   "tags": [],
   "targets": {

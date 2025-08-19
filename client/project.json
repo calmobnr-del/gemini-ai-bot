@@ -1,8 +1,8 @@
 {
-  "name": "gemini-ai-bot",
+  "name": "client",
   "$schema": "../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "app",
+  "prefix": "bot",
   "sourceRoot": "client/src",
   "tags": [],
   "targets": {
@@ -52,10 +52,10 @@
       "executor": "@angular/build:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "gemini-ai-bot:build:production"
+          "buildTarget": "client:build:production"
         },
         "development": {
-          "buildTarget": "gemini-ai-bot:build:development"
+          "buildTarget": "client:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -63,7 +63,7 @@
     "extract-i18n": {
       "executor": "@angular/build:extract-i18n",
       "options": {
-        "buildTarget": "gemini-ai-bot:build"
+        "buildTarget": "client:build"
       }
     },
     "lint": {
@@ -73,7 +73,7 @@
       "continuous": true,
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "gemini-ai-bot:build",
+        "buildTarget": "client:build",
         "staticFilePath": "dist/client/browser",
         "spa": true
       }
