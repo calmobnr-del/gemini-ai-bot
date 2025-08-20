@@ -1,17 +1,19 @@
 <header class="bg-gray-800 shadow-md">
-  <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+  <nav class="container mx-auto p-4  flex justify-between items-center">
 
     <div>
-      <a href="/" class="text-white text-2xl font-bold">
+      <a  routerLink="/" class="text-white text-2xl font-bold">
         <svg class="w-8 h-8 inline-block mr-2 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.657 7.343A8 8 0 0118 18c-1 .5-4 1.5-6 .5s-5-4-6-5c1-2 2.828-2.828 4.243-4.243a8 8 0 0110.657 10.657z"></path></svg>
         GeminiBot
       </a>
     </div>
 
     <div class="hidden md:flex space-x-6 items-center">
-      <a href="#" class="text-gray-300 hover:text-white">Features</a>
-      <a href="#" class="text-gray-300 hover:text-white">Pricing</a>
-      <a href="#" class="text-gray-300 hover:text-white">About</a>
+      <a routerLink="/chat" class="text-gray-300 hover:text-white">Chat</a>
+
+      <a routerLink="/history" class="text-gray-300 hover:text-white">Chat history</a>
+
+<!--      <a [routerLink]="['/history', sessionId]" class="text-gray-300 hover:text-white">Chat info</a>-->
     </div>
 
     <div>

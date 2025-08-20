@@ -1,20 +1,28 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Get, Delete, Param } from '@nestjs/common';
 import { CreateChatDto } from './dto/create-chat.dto';
-import { GeminiAiService } from './gemini-ai.service';
+import { ChatService } from './services/chat.service';
 
 @Controller('chat')
 export class ChatController {
+  constructor(private readonly chatService: ChatService) {}
 
-  constructor(private readonly geminiAiService: GeminiAiService) {
+  /**
+   * Handles incoming chat messages.
+   * Creates a new session if sessionId is not provided.
+   */
+  @Post()
+  async handleChat(@Body() createChatDto: CreateChatDto) {
+    const { message, sessionId } = createChatDto;
+    return this.chatService.processMessage(message, sessionId);
   }
 
-  @Post()
-  async create(@Body() createChatDto: CreateChatDto) {
-    const userMessage = createChatDto.message;
-    const aiReply = await this.geminiAiService.generateText(userMessage);
+  @Get('sessions')
+  findAllSessions() {
+    return this.chatService.findAllSessions();
+  }
 
-    return {
-      reply: aiReply
-    }
+  @Delete('sessions/:sessionId')
+  removeSession(@Param('sessionId') sessionId: string) {
+    return this.chatService.removeSession(sessionId);
   }
 }

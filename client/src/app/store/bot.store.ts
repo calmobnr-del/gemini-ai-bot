@@ -1,0 +1,84 @@
+// in apps/client/src/app/bot.store.ts
+import { Injectable, inject } from '@angular/core';
+import { patchState, signalState } from '@ngrx/signals';
+import { BotService, ChatSession } from './bot.service';
+import { tap } from 'rxjs';
+
+export interface Message {
+  text: string;
+  sender: 'User' | 'Bot';
+}
+
+interface BotState {
+  messages: Message[];
+  loading: boolean;
+  error: string | null;
+  sessionId: string | null;
+  sessions: ChatSession[];
+}
+
+const initialState: BotState = {
+  messages: [],
+  loading: false,
+  error: null,
+  sessionId: null,
+  sessions: [],
+};
+
+@Injectable({ providedIn: 'root' })
+export class BotStore {
+  private botService = inject(BotService);
+  readonly state = signalState<BotState>(initialState);
+
+
+  sendMessage(message: string) {
+    const currentSessionId = this.state.sessionId();
+
+    patchState(this.state, {
+      loading: true,
+      messages: [...this.state.messages(), { text: message, sender: 'User' }],
+    });
+
+    this.botService
+      .sendMessage({ message, sessionId: currentSessionId ?? undefined }) // Pass current session ID
+      .pipe(
+        tap({
+          next: (response) => {
+            patchState(this.state, {
+              loading: false,
+              sessionId: response.sessionId, // <-- Update the session ID from the response
+              messages: [
+                ...this.state.messages(),
+                { text: response.reply, sender: 'Bot' },
+              ],
+            });
+          },
+          error: (e) => patchState(this.state, { loading: false, error: e.message }),
+        })
+      )
+      .subscribe();
+  }
+
+  loadAllSessions() {
+    patchState(this.state, { loading: true });
+    this.botService.getAllSessions().pipe(
+      tap({
+        next: (sessions) => patchState(this.state, { loading: false, sessions }),
+        error: (e) => patchState(this.state, { loading: false, error: e.message }),
+      })
+    ).subscribe();
+  }
+
+  deleteSession(sessionId: string) {
+    this.botService.deleteSession(sessionId).pipe(
+      tap({
+        next: () => {
+          patchState(this.state, {
+            sessions: this.state.sessions().filter(s => s.id !== sessionId)
+          });
+        },
+        error: (e) => patchState(this.state, { error: e.message }),
+      })
+    ).subscribe();
+  }
+}

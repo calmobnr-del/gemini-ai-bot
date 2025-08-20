@@ -1,5 +1,4 @@
-
-const apiUrl =   location.origin + '/api'
+const apiUrl = location.origin + '/api';
 
 export const environment = {
   production: false,
