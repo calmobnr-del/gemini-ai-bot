@@ -2,14 +2,4 @@
 
 <div class="max-w-screen-2xl mx-auto px-4">
   <router-outlet></router-outlet>
-
-  <main class="container mx-auto p-6">
-    <h2 class="text-xl font-bold mb-4">Counter Store</h2>
-    <div class="flex items-center space-x-4">
-      <button (click)="store.decrement()" class="bg-red-500 text-white font-bold py-2 px-4 rounded">-</button>
-      <span class="text-2xl font-mono">{{ store.state().count }}</span>
-      <button (click)="store.increment()" class="bg-green-500 text-white font-bold py-2 px-4 rounded">+</button>
-    </div>
-    <p class="mt-4">Double the count is: <strong class="font-mono">{{ store.double() }}</strong></p>
-  </main>
 </div>
