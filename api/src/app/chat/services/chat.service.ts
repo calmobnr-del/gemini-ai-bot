@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ChatSession } from '../entities/chat-session.entity';
 import { Message } from '../entities/message.entity';
-import { GeminiAiService } from './gemini-ai.service';
+import { GeminiAiService, HistoryMessage } from './gemini-ai.service';
 import { logger } from 'nx/src/utils/logger';
 
 @Injectable()
@@ -21,25 +21,37 @@ export class ChatService {
 
     if (sessionId) {
       session = await this.sessionRepository.findOneBy({ id: sessionId });
-    } else {
+    }
+
+    if (!session) {
       session = this.sessionRepository.create();
       await this.sessionRepository.save(session);
     }
 
-    if (!session) {
-      throw new Error('Failed to create or find session');
-    }
+    // 2. Fetch the message history for context
+    const history = await this.messageRepository.find({
+      where: { session: { id: session.id } },
+      order: { id: 'ASC' },
+    });
 
-    const aiReply = await this.geminiAiService.generateText(userMessage);
+    // 3. Format the history for the Gemini API
+    const formattedHistory: HistoryMessage[] = history.flatMap(msg => [
+      { role: 'user', parts: [{ text: msg.request }] },
+      { role: 'model', parts: [{ text: JSON.stringify(msg.response) }] }
+    ]);
 
+    // 4. Get the AI reply using the prompt and the history
+    const aiReply = await this.geminiAiService.generateText(userMessage, formattedHistory);
+
+    // 5. Save the new message to the database
     const message = this.messageRepository.create({
       request: userMessage,
       response: aiReply,
       session: session,
     });
-
     await this.messageRepository.save(message);
 
+    // 6. Return the reply and the session ID
     return {
       reply: aiReply,
       sessionId: session.id,

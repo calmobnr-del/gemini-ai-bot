@@ -20,7 +20,7 @@
         </h2>
 
         <div class="bg-gray-100 text-gray-800 rounded-lg p-3">
-          @if (msg.response?.parsedText; as parsed) {
+          @if (msg.response; as parsed) {
             <div class="space-y-2">
               <p class="italic">{{ parsed.introduction }}</p>
               @if (!short()) {
@@ -33,7 +33,7 @@
               }
             </div>
           } @else {
-            <p>{{ msg.response?.rawText || 'No response found.' }}</p>
+            <p>{{  'No response found.' }}</p>
           }
         </div>
       }

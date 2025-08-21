@@ -1,10 +1,10 @@
-import { Component, contentChild, effect, input, TemplateRef } from '@angular/core';
+import { Component, contentChild, input, TemplateRef } from '@angular/core';
 import { ChatSession } from '../../models';
-import { DatePipe, JsonPipe, NgTemplateOutlet } from '@angular/common';
+import { DatePipe, NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'lib-bot-history-item',
-  imports: [JsonPipe, DatePipe, NgTemplateOutlet],
+  imports: [DatePipe, NgTemplateOutlet],
   templateUrl: './history-data-item.component.html',
   styleUrl: './history-data-item.component.css',
 })

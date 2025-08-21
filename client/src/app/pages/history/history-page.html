@@ -1,27 +1,28 @@
 <div class="container mx-auto p-4">
   <h1 class="text-2xl font-bold mb-4">Chat History</h1>
 
-  @if(state.loading()) {
-  <p>Loading history...</p>
-  } @for(session of state.sessions(); track session.id) {
-  <div class="session-container">
-    <lib-bot-history-item [message]="session" [short]="true">
-      <ng-template #contentBtnTpl>
-        <button
-          (click)="goToSessionId(session.id)"
-          class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-semibold py-1 px-3 rounded"
-        >
-          Open
-        </button>
+  @if (state.loading()) {
+    <p>Loading history...</p>
+  }
+  @for (session of state.sessions(); track session.id) {
+    <div class="session-container">
+      <lib-bot-history-item [message]="session" [short]="true">
+        <ng-template #contentBtnTpl>
+          <button
+            (click)="goToSessionId(session.id)"
+            class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-semibold py-1 px-3 rounded"
+          >
+            Open
+          </button>
 
-        <button
-          (click)="deleteSession(session.id)"
-          class="bg-red-500 hover:bg-red-700 text-white text-xs font-semibold py-1 px-3 rounded"
-        >
-          Delete
-        </button>
-      </ng-template>
-    </lib-bot-history-item>
-  </div>
+          <button
+            (click)="deleteSession(session.id)"
+            class="bg-red-500 hover:bg-red-700 text-white text-xs font-semibold py-1 px-3 rounded"
+          >
+            Delete
+          </button>
+        </ng-template>
+      </lib-bot-history-item>
+    </div>
   }
 </div>

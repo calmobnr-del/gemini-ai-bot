@@ -4,6 +4,11 @@ import { ConfigService } from '@nestjs/config';
 import { ParserService } from '../../parser/parser.service';
 import { logger } from 'nx/src/utils/logger';
 
+export interface HistoryMessage {
+  role: 'user' | 'model';
+  parts: { text: string }[];
+}
+
 @Injectable()
 export class GeminiAiService {
   private readonly genAI: GoogleGenerativeAI;
@@ -17,20 +22,18 @@ export class GeminiAiService {
     this.genAI = new GoogleGenerativeAI(apiKey);
   }
 
-  async generateText(prompt: string): Promise<any> {
+  async generateText(prompt: string, history: HistoryMessage[] = []): Promise<any> {
     try {
-      // Get the generative model
-      const model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-flash'});
+      const model = this.genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
-      // Generate content based on the prompt
-      const result = await model.generateContent(prompt);
-      const response = await result.response;
+      // Start a chat with the provided history
+      const chat = model.startChat({ history });
+      const result = await chat.sendMessage(prompt);
+
+      const response =   result.response;
       const rawText = response.text();
-      return {
-        rawText: rawText,
-        parsedText: this.parserService.parse(rawText)
-      }
 
+      return this.parserService.parse(rawText);
     } catch (error) {
       console.error('Error generating text:', error);
       throw new Error('Failed to generate text with Gemini AI.');

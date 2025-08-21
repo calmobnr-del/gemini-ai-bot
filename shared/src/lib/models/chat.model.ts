@@ -4,12 +4,8 @@ export interface ChatResponse {
   sessionId: string
 }
 
-export interface Reply {
-  rawText: string
-  parsedText: ParsedText
-}
 
-export interface ParsedText {
+export interface Reply {
   introduction: string
   topics: Topic[]
 }
@@ -23,7 +19,7 @@ export interface Topic {
 export interface ChatMessage {
   sender: 'User' | 'Bot';
   request?: string; // Make text optional
-  response?: ParsedText; // Make response optional
+  response?: Reply; // Make response optional
 }
 
 export interface ChatSession {

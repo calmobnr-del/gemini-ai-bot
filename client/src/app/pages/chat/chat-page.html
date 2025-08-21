@@ -1,32 +1,37 @@
 <div class="container mx-auto p-4">
   <div class="chat-container my-2">
-    @if (state.sessionId()) { @for(message of state.messages(); track $index) { @if (message.sender
-    === 'User' && message.request) {
-    <div class="flex justify-end mb-2">
-      <div class="bg-blue-500 text-white rounded-lg p-3">
-        <p>{{ message.request }}</p>
-      </div>
-    </div>
-    } @if (message.sender === 'Bot' && message.response) {
-    <div class="flex justify-start mb-2">
-      <div class="bg-gray-200 text-gray-800 rounded-lg p-3">
-        <p>{{ message.response.introduction }}</p>
-      </div>
-    </div>
+    @if (state.sessionId()) {
+      @for (message of state.messages(); track $index) {
+        @if (message.sender === 'User' && message.request) {
+          <div class="flex justify-end mb-2">
+            <div class="bg-blue-500 text-white rounded-lg p-3">
+              <p>{{ message.request }}</p>
+            </div>
+          </div>
+        }
+        @if (message.sender === 'Bot' && message.response) {
+          <div class="flex justify-start mb-2">
+            <div class="bg-gray-200 text-gray-800 rounded-lg p-3">
+              <p>{{ message.response.introduction }}</p>
+            </div>
+          </div>
 
-    @if (message.response.topics; as topics) { @for (topic of topics; track topic.title) {
-    <div class="pt-2 border-t border-gray-200">
-         <h3 class="font-bold text-gray-900">{{ topic.title }}</h3>
-      <p class="text-sm">{{ topic.description }}</p>
-    </div>
+          @if (message.response.topics; as topics) {
+            @for (topic of topics; track topic.title) {
+              <div class="pt-2 border-t border-gray-200">
+                <h3 class="font-bold text-gray-900">{{ topic.title }}</h3>
+                <p class="text-sm">{{ topic.description }}</p>
+              </div>
+            }
+          }
+        }
+      }
     }
-
-    } }
-
-    } } @if (!state.sessionId() && !state.loading()){
-    <p class="text-lg">Let's start a new chat...</p>
-    } @if (state.loading()) {
-    <p>Bot is typing...</p>
+    @if (!state.sessionId() && !state.loading()) {
+      <p class="text-lg">Let's start a new chat...</p>
+    }
+    @if (state.loading()) {
+      <p>Bot is typing...</p>
     }
   </div>
 
