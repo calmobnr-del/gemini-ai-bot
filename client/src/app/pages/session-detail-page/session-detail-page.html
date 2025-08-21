@@ -1,0 +1,18 @@
+<div class="container">
+  @if(store.state.selectedSession(); as session) {
+    <div class="p-6">
+      <h1 class="text-2xl font-bold mb-4">
+        Session: {{ session.id }}
+      </h1>
+      @for(message of session.messages; track message.id) {
+        <div class="message">
+          <p><strong>You:</strong> {{ message.request }}</p>
+          <p><strong>Bot:</strong> {{ message.response }}</p>
+        </div>
+      }
+    </div>
+  } @else {
+    <p>Loading session...</p>
+  }
+
+</div>

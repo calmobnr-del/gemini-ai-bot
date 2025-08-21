@@ -44,14 +44,17 @@ export class ChatService {
     };
   }
 
-  /**
-   * Retrieves all chat sessions with their related messages.
-   * @returns A promise that resolves to an array of ChatSession entities.
-   */
   async findAllSessions(): Promise<ChatSession[]> {
     return this.sessionRepository.find({
       relations: ['messages'],
       order: { createdAt: 'DESC' }, // Show newest sessions first
+    });
+  }
+
+  async findOneSession(sessionId: string): Promise<ChatSession> {
+    return this.sessionRepository.findOne({
+      where: { id: sessionId },
+      relations: ['messages'],
     });
   }
 

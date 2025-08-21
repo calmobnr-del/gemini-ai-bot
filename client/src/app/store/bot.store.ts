@@ -14,6 +14,7 @@ interface BotState {
   loading: boolean;
   error: string | null;
   sessionId: string | null;
+  selectedSession: ChatSession | null;
   sessions: ChatSession[];
 }
 
@@ -22,6 +23,7 @@ const initialState: BotState = {
   loading: false,
   error: null,
   sessionId: null,
+  selectedSession: null,
   sessions: [],
 };
 
@@ -78,6 +80,16 @@ export class BotStore {
           });
         },
         error: (e) => patchState(this.state, { error: e.message }),
+      })
+    ).subscribe();
+  }
+
+  loadSessionById(sessionId: string) {
+    patchState(this.state, { loading: true, selectedSession: null });
+    this.botService.getSessionById(sessionId).pipe(
+      tap({
+        next: (session) => patchState(this.state, { loading: false, selectedSession: session }),
+        error: (e) => patchState(this.state, { loading: false, error: e.message }),
       })
     ).subscribe();
   }

@@ -35,6 +35,10 @@ export class BotService {
     return this.http.get<ChatSession[]>(`${this.apiUrlChat}/sessions`);
   }
 
+  getSessionById(sessionId: string): Observable<ChatSession> {
+    return this.http.get<ChatSession>(`${this.apiUrlChat}/sessions/${sessionId}`);
+  }
+
   deleteSession(sessionId: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrlChat}/sessions/${sessionId}`);
   }

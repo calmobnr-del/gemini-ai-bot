@@ -21,12 +21,23 @@
     </div>
     }
 
-    <button
-      (click)="deleteSession(session.id)"
-      class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
-    >
-      Delete
-    </button>
+   <div class="mt-4 flex justify-end items-center gap-2">
+     <button
+       (click)="goToSessionId(session.id)"
+       class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1 px-3 rounded"
+     >
+       Open
+     </button>
+
+     <button
+       (click)="deleteSession(session.id)"
+       class="bg-red-500 hover:bg-red-700 text-white font-semibold py-1 px-3 rounded"
+     >
+       Delete
+     </button>
+   </div>
+
+
   </div>
   }
 </div>

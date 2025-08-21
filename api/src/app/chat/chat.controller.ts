@@ -21,6 +21,11 @@ export class ChatController {
     return this.chatService.findAllSessions();
   }
 
+  @Get('sessions/:sessionId')
+  findOneSession(@Param('sessionId') sessionId: string) {
+    return this.chatService.findOneSession(sessionId);
+  }
+
   @Delete('sessions/:sessionId')
   removeSession(@Param('sessionId') sessionId: string) {
     return this.chatService.removeSession(sessionId);

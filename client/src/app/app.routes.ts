@@ -17,6 +17,11 @@ export const appRoutes: Route[] = [
       import('./pages/history/history-page').then((m) => m.HistoryPage),
   },
   {
+    path: 'history/:id', // <-- New dynamic route
+    loadComponent: () =>
+      import('./pages/session-detail-page/session-detail-page').then((m) => m.SessionDetail),
+  },
+  {
     path: '**',
     redirectTo: '', // Redirect to the home path
     pathMatch: 'full',
