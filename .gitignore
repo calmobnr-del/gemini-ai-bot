@@ -46,7 +46,4 @@ Thumbs.db
 .angular
 
 # environment variables
-!api/.env
-.env.*
-!api/.env
-**/.env.*
+.env
