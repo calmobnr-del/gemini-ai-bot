@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { ChatSession } from '../entities/chat-session.entity';
 import { Message } from '../entities/message.entity';
 import { GeminiAiService } from './gemini-ai.service';
+import { logger } from 'nx/src/utils/logger';
 
 @Injectable()
 export class ChatService {
@@ -36,6 +37,7 @@ export class ChatService {
       response: aiReply,
       session: session,
     });
+
     await this.messageRepository.save(message);
 
     return {
@@ -59,6 +61,10 @@ export class ChatService {
   }
 
   async removeSession(sessionId: string): Promise<void> {
+    // 1. First, delete all messages that belong to this session
+    await this.messageRepository.delete({ session: { id: sessionId } });
+
+    // 2. Now that the messages are gone, you can safely delete the session
     await this.sessionRepository.delete(sessionId);
   }
 }

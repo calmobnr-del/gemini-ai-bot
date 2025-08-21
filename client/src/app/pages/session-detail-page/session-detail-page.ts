@@ -1,10 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { BotStore } from '../../store/bot.store';
 import { ActivatedRoute } from '@angular/router';
+import { HistoryDataItem } from '@gemini-ai-bot/ui';
 
 @Component({
   selector: 'app-bot-session-detail-page',
-  imports: [],
+  imports: [HistoryDataItem],
   templateUrl: './session-detail-page.html',
   styleUrl: './session-detail-page.css',
 })

@@ -1,4 +1,3 @@
-
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { ChatSession } from './chat-session.entity';
 
@@ -10,8 +9,8 @@ export class Message {
   @Column('text')
   request: string;
 
-  @Column('text')
-  response: string;
+  @Column('jsonb', { nullable: true })
+  response: object;
 
   @ManyToOne(() => ChatSession, (session) => session.messages)
   session: ChatSession;

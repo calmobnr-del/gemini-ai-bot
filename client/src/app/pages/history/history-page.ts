@@ -2,10 +2,11 @@ import { Component, inject, OnInit } from '@angular/core';
 import { BotStore } from '../../store/bot.store';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { HistoryDataItem } from '@gemini-ai-bot/ui';
 
 @Component({
   selector: 'app-bot-history',
-  imports: [DatePipe],
+  imports: [DatePipe, HistoryDataItem],
   templateUrl: './history-page.html',
   styleUrl: './history-page.css',
 })
@@ -24,7 +25,6 @@ export class HistoryPage implements OnInit {
       this.store.deleteSession(sessionId);
     }
   }
-
 
   goToSessionId(sessionId: string): void {
     this.router.navigate(['/history', sessionId]);

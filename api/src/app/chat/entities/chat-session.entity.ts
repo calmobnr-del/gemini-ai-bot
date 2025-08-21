@@ -1,4 +1,3 @@
-
 import { Entity, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from 'typeorm';
 import { Message } from './message.entity';
 
@@ -10,6 +9,9 @@ export class ChatSession {
   @CreateDateColumn()
   createdAt: Date;
 
-  @OneToMany(() => Message, (message) => message.session)
+  @OneToMany(() => Message, (message) => message.session, {
+    cascade: true, // Optional: helps with saving related entities
+    onDelete: 'CASCADE',
+  })
   messages: Message[];
 }

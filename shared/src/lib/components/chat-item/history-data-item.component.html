@@ -1,0 +1,42 @@
+@if (message(); as session) {
+  <div class="session-container mb-6 p-4 border rounded-lg shadow-md bg-white">
+    <div class="border-b border-gray-200 pb-2 mb-3">
+      <div>
+        <h2 class="text-lg font-semibold border-b pb-2 mb-2">Session ID: {{ session.id }}</h2>
+        <p class="text-xs text-gray-500">Created on: {{ session.createdAt | date: 'medium' }}</p>
+      </div>
+
+      @if (contentBtnTpl(); as contentBtnTpl) {
+        <div class="mt-4 flex justify-end items-center gap-2">
+          <ng-container *ngTemplateOutlet="contentBtnTpl"></ng-container>
+        </div>
+      }
+    </div>
+
+    <div class="messages-list space-y-4">
+      @for (msg of session.messages; track msg.id) {
+        <h2 class="text-xl font-bold py-2">
+          <p>{{ msg.request }}</p>
+        </h2>
+
+        <div class="bg-gray-100 text-gray-800 rounded-lg p-3">
+          @if (msg.response?.parsedText; as parsed) {
+            <div class="space-y-2">
+              <p class="italic">{{ parsed.introduction }}</p>
+              @if (!short()) {
+                @for (topic of parsed.topics; track topic.title) {
+                  <div class="pt-2 border-t border-gray-200">
+                    <h3 class="font-bold text-gray-900">{{ topic.title }}</h3>
+                    <p class="text-sm">{{ topic.description }}</p>
+                  </div>
+                }
+              }
+            </div>
+          } @else {
+            <p>{{ msg.response?.rawText || 'No response found.' }}</p>
+          }
+        </div>
+      }
+    </div>
+  </div>
+}

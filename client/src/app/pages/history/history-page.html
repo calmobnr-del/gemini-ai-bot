@@ -4,40 +4,24 @@
   @if(state.loading()) {
   <p>Loading history...</p>
   } @for(session of state.sessions(); track session.id) {
-  <div class="session-container mb-6 p-4 border rounded-md">
-    <h2 class="text-lg font-semibold border-b pb-2 mb-2">
-      Session ID: {{ session.id }} ({{ session.createdAt | date : 'short' }})
-    </h2>
-    @for(message of session.messages; track message.id) {
-    <div class="message">
-      <p>
-        <strong>You:</strong>
-        {{ message.request }}
-      </p>
-      <p>
-        <strong>Bot:</strong>
-        {{ message.response }}
-      </p>
-    </div>
-    }
+  <div class="session-container">
+    <lib-bot-history-item [message]="session" [short]="true">
+      <ng-template #contentBtnTpl>
+        <button
+          (click)="goToSessionId(session.id)"
+          class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-semibold py-1 px-3 rounded"
+        >
+          Open
+        </button>
 
-   <div class="mt-4 flex justify-end items-center gap-2">
-     <button
-       (click)="goToSessionId(session.id)"
-       class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1 px-3 rounded"
-     >
-       Open
-     </button>
-
-     <button
-       (click)="deleteSession(session.id)"
-       class="bg-red-500 hover:bg-red-700 text-white font-semibold py-1 px-3 rounded"
-     >
-       Delete
-     </button>
-   </div>
-
-
+        <button
+          (click)="deleteSession(session.id)"
+          class="bg-red-500 hover:bg-red-700 text-white text-xs font-semibold py-1 px-3 rounded"
+        >
+          Delete
+        </button>
+      </ng-template>
+    </lib-bot-history-item>
   </div>
   }
 </div>

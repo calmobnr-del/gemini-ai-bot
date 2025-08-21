@@ -1,3 +1,4 @@
 export * from './button/button'
 export * from './header/header'
 export * from './footer/footer'
+export * from './chat-item/history-data-item.component'

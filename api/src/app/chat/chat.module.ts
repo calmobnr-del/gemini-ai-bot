@@ -5,9 +5,10 @@ import { GeminiAiService } from './services/gemini-ai.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Message } from './entities/message.entity';
 import { ChatSession } from './entities/chat-session.entity';
+import { ParserModule } from '../parser/parser.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ChatSession, Message])],
+  imports: [TypeOrmModule.forFeature([ChatSession, Message]), ParserModule],
   controllers: [ChatController],
   providers: [ChatService, GeminiAiService],
 })

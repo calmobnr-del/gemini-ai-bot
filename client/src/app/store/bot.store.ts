@@ -1,16 +1,12 @@
-// in apps/client/src/app/bot.store.ts
 import { Injectable, inject } from '@angular/core';
 import { patchState, signalState } from '@ngrx/signals';
-import { BotService, ChatSession } from './bot.service';
+import { BotService } from './bot.service';
 import { tap } from 'rxjs';
+import { ChatMessage, ChatSession } from '@gemini-ai-bot/ui';
 
-export interface Message {
-  text: string;
-  sender: 'User' | 'Bot';
-}
 
 interface BotState {
-  messages: Message[];
+  messages: ChatMessage[];
   loading: boolean;
   error: string | null;
   sessionId: string | null;
@@ -38,24 +34,25 @@ export class BotStore {
 
     patchState(this.state, {
       loading: true,
-      messages: [...this.state.messages(), { text: message, sender: 'User' }],
+      messages: [...this.state.messages(), { request: message, sender: 'User' }],
     });
 
     this.botService
-      .sendMessage({ message, sessionId: currentSessionId ?? undefined }) // Pass current session ID
+      .sendMessage({ message, sessionId: currentSessionId ?? undefined })
       .pipe(
         tap({
           next: (response) => {
             patchState(this.state, {
               loading: false,
-              sessionId: response.sessionId, // <-- Update the session ID from the response
+              sessionId: response.sessionId,
               messages: [
                 ...this.state.messages(),
-                { text: response.reply, sender: 'Bot' },
+                { response: response.reply.parsedText, sender: 'Bot' },
               ],
             });
           },
-          error: (e) => patchState(this.state, { loading: false, error: e.message }),
+          error: (e) =>
+            patchState(this.state, { loading: false, error: e.message }),
         })
       )
       .subscribe();
@@ -92,5 +89,13 @@ export class BotStore {
         error: (e) => patchState(this.state, { loading: false, error: e.message }),
       })
     ).subscribe();
+  }
+
+  clearChat() {
+    patchState(this.state, {
+      messages: [],
+      sessionId: null,
+      error: null,
+    });
   }
 }

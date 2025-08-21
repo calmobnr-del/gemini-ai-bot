@@ -2,26 +2,24 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { ChatResponse, ChatSession } from '@gemini-ai-bot/ui';
 
-export interface ChatSession {
-  id: string;
-  createdAt: string;
-  messages: {
-    id: number;
-    request: string;
-    response: string;
-  }[];
-}
+
 
 export interface ChatPayload {
   message: string;
   sessionId?: string;
 }
 
-export interface ChatResponse {
-  reply: string;
-  sessionId: string;
-}
+
+//
+// export interface ChatResponse {
+//   reply: string;
+//   sessionId: string;
+// }
+
+
+
 @Injectable({ providedIn: 'root' })
 export class BotService {
   private http = inject(HttpClient);
