@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start:api": "nx serve api",
+    "start:api-nodemon": "nodemon",
     "start:client": "nx serve client --port 4205",
     "build:api": "nx build api ",
     "build:client": "nx build client",
@@ -26,6 +27,7 @@
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.0",
     "@nestjs/platform-express": "^11.0.0",
+    "@nestjs/swagger": "^11.2.0",
     "@nestjs/typeorm": "^11.0.0",
     "@ngrx/signals": "^20.0.0",
     "@ngrx/store": "^20.0.0",
@@ -70,6 +72,7 @@
     "jest": "^30.0.2",
     "jest-environment-node": "^30.0.2",
     "jest-util": "^30.0.2",
+    "nodemon": "^3.1.10",
     "nx": "21.4.0",
     "postcss": "^8.4.5",
     "prettier": "^3.6.2",

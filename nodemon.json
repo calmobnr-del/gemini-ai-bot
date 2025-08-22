@@ -1,0 +1,6 @@
+{
+  "watch": ["api/src", "libs"],
+  "ext": "ts",
+  "ignore": ["api/src/**/*.spec.ts"],
+  "exec": "npx nx build api && node dist/api/main.js"
+}
