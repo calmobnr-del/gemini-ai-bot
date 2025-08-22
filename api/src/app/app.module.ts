@@ -7,7 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: 'apps/api/.env',
+      envFilePath: 'api/.env',
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],

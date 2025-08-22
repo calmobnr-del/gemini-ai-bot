@@ -1,37 +1,26 @@
 # Stage 1: Build the application
-# Use a specific version of Node.js for consistency
-FROM node:18-alpine AS builder
-
-# Set the working directory inside the container
+FROM node:22-alpine AS builder
 WORKDIR /app
-
-# Copy package files and install all dependencies needed for the build
 COPY package*.json ./
 RUN npm install
-
-# Copy the rest of your source code
 COPY . .
 
-# Run your custom webpack build for the 'api' application
-RUN npx webpack-cli build --node-env=production --config=apps/api/webpack.config.js
+# Build the 'api' application from its root
+RUN npx nx build api --prod
 
 # ---
 
 # Stage 2: Create the final, smaller production image
-# Use a slim Node.js image for a smaller final size
-FROM node:18-alpine
-
+FROM node:22-alpine
 WORKDIR /app
 
-# Copy the build output from the builder stage
+# The output path from your custom webpack is dist/api
+# This COPY command is now correct for your structure
 COPY --from=builder /app/dist/api ./
 
-# Copy package files again to install only production dependencies
+# Copy production dependencies
 COPY --from=builder /app/package*.json ./
 RUN npm install --omit=dev
 
-# Expose the port the app runs on
 EXPOSE 3000
-
-# The command to start the application
 CMD ["node", "main.js"]
