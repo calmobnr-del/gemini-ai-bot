@@ -1,13 +1,12 @@
 import { Component, effect, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BotStore } from '../../store/bot.store';
-import { HistoryDataItem } from '@gemini-ai-bot/ui';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-bot-session-detail-page',
   standalone: true,
-  imports: [HistoryDataItem, CommonModule],
+  imports: [CommonModule],
   templateUrl: './session-detail-page.html',
   styleUrl: './session-detail-page.css',
 })
@@ -27,7 +26,6 @@ export class SessionDetail implements OnInit, OnDestroy {
     if (sessionId) {
       this.store.loadSessionById(sessionId);
     }
-
   }
 
   sendMessage(input: HTMLTextAreaElement) {

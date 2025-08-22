@@ -1,12 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { BotStore } from '../../store/bot.store';
-import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { HistoryDataItem } from '@gemini-ai-bot/ui';
 
 @Component({
   selector: 'app-bot-history',
-  imports: [DatePipe, HistoryDataItem],
+  imports: [HistoryDataItem],
   templateUrl: './history-page.html',
   styleUrl: './history-page.css',
 })

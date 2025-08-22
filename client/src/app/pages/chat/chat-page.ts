@@ -1,10 +1,9 @@
-import { Component, effect, inject, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { BotStore } from '../../store/bot.store';
-import { HistoryDataItem } from '@gemini-ai-bot/ui';
 
 @Component({
   selector: 'app-bot-chat',
-  imports: [HistoryDataItem],
+  imports: [],
   templateUrl: './chat-page.html',
   styleUrl: './chat-page.css',
 })
