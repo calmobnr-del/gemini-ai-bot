@@ -6,7 +6,7 @@ This is a full-stack chatbot application built with NestJS, Angular, and Postgre
 
 Before you begin, ensure you have the following installed on your system:
 
-* [Node.js](https://nodejs.org/) (v18 or later)
+* [Node.js](https://nodejs.org/) (v22 or later)
 
 * [Docker](https://www.docker.com/products/docker-desktop/) and Docker Compose
 
@@ -82,6 +82,24 @@ docker-compose down
 
 ```
 
+This command stops and removes the containers and the network that were created. However, it does not remove the named volume (postgres-data) where your PostgreSQL database stores its data.
+
+This is the command you'll use most of the time. It allows you to stop the application, but when you run docker-compose up again, your database will still have all the chat history you saved.
+
+
+### Stop the Application and remove all
+
+```
+docker-compose down -v
+
+```
+
+The -v flag tells Docker Compose to do everything down does, but to also remove the named volumes defined in your docker-compose.yml file.
+
+You would use this command when you want a completely fresh start, deleting all of your saved chat history and starting with an empty database the next time you run docker-compose up. It's like a factory reset for your application's data. ⚠️
+
+
+
 ### View Running Containers
 
 Lists all currently running Docker containers. You should see `gemini-api` and `gemini-db`.
@@ -110,3 +128,23 @@ If you make changes to the `Dockerfile` or your backend source code, you'll need
 
 ```
 docker-compose up --build -d
+
+```
+
+### Run this command from the project root directory
+
+```
+docker-compose -f docker/docker-compose.yml up --build -d
+docker-compose -f docker/docker-compose.yml down
+or
+docker-compose -f docker/docker-compose.dev.yml up --build -d
+docker-compose -f docker/docker-compose.dev.yml down
+```
+
+
+### logs  in docker-compose.dev.yml (or docker-compose.yml file)
+
+```
+docker-compose -f docker/docker-compose.dev.yml logs api
+docker-compose -f docker/docker-compose.dev.yml logs client
+```

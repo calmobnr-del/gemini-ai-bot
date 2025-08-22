@@ -14,7 +14,7 @@
     @for (message of store.state.messages(); track $index) {
 
       @if (message.sender === 'User' && message.request) {
-        <div class="flex justify-end">
+        <div class="flex justify-end ml-6">
           <div class="bg-blue-500 text-white rounded-lg p-3 ">
             <p>{{ message.request }}</p>
           </div>
@@ -25,7 +25,7 @@
         <div class="flex justify-start">
           <div class="bg-gray-100 text-gray-800 rounded-lg p-3 ">
             <div class="space-y-2">
-              <p class="italic">{{ message.response.introduction }}</p>
+              <p class="">{{ message.response.introduction }}</p>
               @for (topic of message.response.topics; track topic.title) {
                 <div class="pt-2 mt-2 border-t border-gray-200">
                   <h3 class="font-bold text-gray-900">{{ topic.title }}</h3>
@@ -47,7 +47,7 @@
     }
   </div>
 
-  <div class="chat-input flex-shrink-0 border-t pt-4 bg-gray-50">
+  <div class="chat-input flex-shrink-0 border-t-2 pt-4">
     <textarea
       class="p-3 border-2 w-full border-gray-300 rounded-md"
       #input

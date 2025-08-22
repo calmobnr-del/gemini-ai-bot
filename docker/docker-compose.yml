@@ -1,0 +1,45 @@
+
+services:
+  # 1. Angular Frontend Service
+  client:
+    build:
+      context: ..
+      dockerfile: docker/client.Dockerfile
+    container_name: gemini-client
+    ports:
+      - '4200:80'
+    depends_on:
+      - api
+
+  # 2. NestJS API Service
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    env_file: ../.env # <-- This correctly loads all variables
+    container_name: gemini-api
+    ports:
+      - '3000:3000'
+    depends_on:
+      db:
+        condition: service_healthy
+    # REMOVE the entire 'environment' block from here
+
+  # 3. PostgreSQL Database Service
+  db:
+    image: postgres:15-alpine
+    env_file: ../.env # <-- This correctly loads all variables
+    container_name: gemini-db
+    ports:
+      - '5432:5432'
+    # REMOVE the entire 'environment' block from here
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres-data:

@@ -1,0 +1,49 @@
+# docker/docker-compose.dev.yml
+
+services:
+  # 1. Angular Frontend Service (with Live-Reload)
+  client:
+    build:
+      context: ..
+      dockerfile: docker/client.dev.Dockerfile
+    container_name: gemini-client-dev
+    ports:
+      - '4200:4200'
+    volumes:
+      # Sync the entire project root to /app in the container
+      - ..:/app
+      # IMPORTANT: This prevents your local node_modules from overwriting the container's
+      - /app/node_modules
+    command: npx nx serve client --host 0.0.0.0 --port 4200
+
+  # 2. NestJS API Service (with Live-Reload)
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    env_file: ../.env
+    container_name: gemini-api-dev
+    ports:
+      - '3000:3000'
+    depends_on:
+      db:
+        condition: service_healthy
+
+
+  # 3. PostgreSQL Database Service
+  db:
+    image: postgres:15-alpine
+    container_name: gemini-db-dev
+    ports:
+      - '5432:5432'
+    env_file: ../.env
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres-data:

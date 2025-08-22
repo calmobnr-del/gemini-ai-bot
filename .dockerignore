@@ -1,0 +1,11 @@
+# .dockerignore
+
+# Node dependencies
+node_modules
+
+# Build output
+dist
+tmp
+
+# Nx cache
+.nx/cache

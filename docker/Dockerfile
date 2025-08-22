@@ -3,6 +3,7 @@ FROM node:22-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
+# Copy the entire project context
 COPY . .
 
 # Build the 'api' application from its root

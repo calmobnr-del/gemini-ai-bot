@@ -25,6 +25,7 @@ export class BotService {
   private http = inject(HttpClient);
   private apiUrlChat = environment.apiUrlChat;
 
+
   sendMessage(payload: ChatPayload): Observable<ChatResponse> {
     return this.http.post<ChatResponse>(this.apiUrlChat, payload);
   }

@@ -7,6 +7,6 @@ export class AppController {
 
   @Get()
   getStatus(): { status: string } {
-    return { status: 'API is running' };
+    return { status: 'API is running!!' };
   }
 }
