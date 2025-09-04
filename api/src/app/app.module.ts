@@ -3,6 +3,8 @@ import { ChatModule } from './chat/chat.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
+import { LocationsModule } from './locations/locations.module';
+import { MapModule } from './map/map.module';
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { AppController } from './app.controller';
       }),
     }),
     ChatModule,
+    MapModule,
+    LocationsModule,
   ],
   controllers: [AppController],
   providers: [],

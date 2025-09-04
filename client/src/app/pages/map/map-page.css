@@ -1,0 +1,42 @@
+:host {
+  display: block;
+  width: 100%;
+  height: calc(100vh - 70px);
+  position: relative;
+  .map {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.marker {
+  width: 20px;
+  height: 20px;
+  background-color: #e63946;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  cursor: pointer;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+
+.location {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  .form {
+    position: absolute;
+    top: 100%;
+    right: 0;
+  }
+}

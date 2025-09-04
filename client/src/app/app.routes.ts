@@ -7,6 +7,11 @@ export const appRoutes: Route[] = [
       import('./pages/home/home-page').then((m) => m.HomePage),
   },
   {
+    path: 'map',
+    loadComponent: () => import('./pages/map/map-page').then((m) => m.MapPage),
+    title: 'Map View'
+  },
+  {
     path: 'chat',
     loadComponent: () =>
       import('./pages/chat/chat-page').then((m) => m.ChatPage),

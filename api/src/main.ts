@@ -3,10 +3,11 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { GlobalErrorHandler } from './app/common/filters/global-error-handler.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,6 +17,10 @@ async function bootstrap() {
   app.enableCors();
 
   app.setGlobalPrefix(globalPrefix);
+
+  app.useGlobalPipes(new ValidationPipe());
+
+   app.useGlobalFilters(new GlobalErrorHandler());
 
   // --- Swagger Configuration ---
   const config = new DocumentBuilder()

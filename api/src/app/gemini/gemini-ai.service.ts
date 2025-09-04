@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { ConfigService } from '@nestjs/config';
-import { ParserService } from '../../parser/parser.service';
+import { ParserService } from '../parser/parser.service';
 import { logger } from 'nx/src/utils/logger';
 
 export interface HistoryMessage {
@@ -13,10 +13,13 @@ export interface HistoryMessage {
 export class GeminiAiService {
   private readonly genAI: GoogleGenerativeAI;
 
-  constructor(private readonly configService: ConfigService, private readonly parserService: ParserService) {
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly parserService: ParserService,
+  ) {
     const apiKey = this.configService.get<string>('GOOGLE_API_KEY');
     if (!apiKey) {
-      throw new Error("GOOGLE_API_KEY is not set in the .env file");
+      throw new Error('GOOGLE_API_KEY is not set in the .env file');
     }
 
     this.genAI = new GoogleGenerativeAI(apiKey);
@@ -30,7 +33,7 @@ export class GeminiAiService {
       const chat = model.startChat({ history });
       const result = await chat.sendMessage(prompt);
 
-      const response =   result.response;
+      const response = result.response;
       const rawText = response.text();
 
       return this.parserService.parse(rawText);

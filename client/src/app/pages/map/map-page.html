@@ -1,0 +1,32 @@
+  <mgl-map
+    class="map"
+    [style]="mapStyle()"
+    [zoom]="[10]"
+    [center]="initialCenter"
+  >
+    <mgl-control mglNavigation position="top-right"></mgl-control>
+
+    @for (location of mapStore.locations(); track location.id) {
+      <mgl-marker [lngLat]="[location.longitude, location.latitude]">
+        <div class="marker" [title]="location.name"></div>
+      </mgl-marker>
+    }
+  </mgl-map>
+
+
+  <div class="location absolute top-4 right-4 z-10 bg-white p-2 rounded-lg shadow-lg  w-32">
+
+    <button
+      (click)="toggleOpenForm()"
+      class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300">
+      {{ openedForm() ? 'Close' : 'Search' }}
+    </button>
+
+    @if(openedForm()) {
+      <lib-bot-location-form class="form block mt-4 w-60"  (locationSubmit)="handleLocationSubmit($event)"></lib-bot-location-form>
+    }
+  </div>
+
+  @if (mapStore.isLoading()) {
+    <div class="loading-overlay">Loading locations...</div>
+  }

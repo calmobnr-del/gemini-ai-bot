@@ -4,4 +4,5 @@ export const environment = {
   production: false,
   apiUrl: apiUrl,
   apiUrlChat: `${apiUrl}/chat`,
+  apiMapUrl: `${apiUrl}/map`,
 };

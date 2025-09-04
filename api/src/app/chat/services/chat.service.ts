@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ChatSession } from '../entities/chat-session.entity';
 import { Message } from '../entities/message.entity';
-import { GeminiAiService, HistoryMessage } from './gemini-ai.service';
+import { GeminiAiService, HistoryMessage } from '../../gemini/gemini-ai.service';
 import { logger } from 'nx/src/utils/logger';
 
 @Injectable()
