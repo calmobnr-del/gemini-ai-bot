@@ -1,9 +1,15 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { MapStore } from './store/map.strore';
-import { ControlComponent, MapComponent, MarkerComponent, NavigationControlDirective } from '@maplibre/ngx-maplibre-gl';
+import {
+  ControlComponent,
+  MapComponent,
+  MarkerComponent,
+  NavigationControlDirective,
+} from '@maplibre/ngx-maplibre-gl';
 import { MapService } from './store/map.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { LocationForm, LocationFormValue } from '@gemini-ai-bot/ui';
+import { Map } from 'maplibre-gl';
 
 @Component({
   selector: 'app-bot-map-page',
@@ -26,7 +32,21 @@ export class MapPage implements OnInit {
 
   initialCenter: [number, number] = [30.5234, 50.4501];
 
+  markerPosition = signal<[number, number] | undefined>(undefined);
+
   mapStyle = toSignal(this.mapService.getMapStyle());
+
+  onMapLoad(mapInstance: Map) {
+    console.log('Map is fully loaded and instance is available:', mapInstance);
+    // Now it's safe to pass the instance to your service
+    this.mapService.setMap(mapInstance);
+  }
+
+  constructor() {}
+
+  ngOnInit() {
+    this.mapStore.loadLocations();
+  }
 
   toggleOpenForm() {
     this.openedForm.set(!this.openedForm());
@@ -37,17 +57,12 @@ export class MapPage implements OnInit {
       next: (coords) => {
         console.log('Received coordinates from backend:', coords);
 
-        // NEXT STEP: Use these coordinates to update the map!
-        // For example, you could set a new center for the map:
-        this.initialCenter = [coords.longitude, coords.latitude];
+        this.markerPosition.set([coords.longitude, coords.latitude]);
+        this.mapService.flyTo([coords.longitude, coords.latitude], 15);
       },
       error: (err) => {
         console.error('Error fetching coordinates:', err);
       },
     });
-  }
-
-  ngOnInit() {
-    this.mapStore.loadLocations();
   }
 }

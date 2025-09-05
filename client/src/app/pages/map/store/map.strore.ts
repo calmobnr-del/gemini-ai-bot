@@ -4,6 +4,7 @@ import { patchState, signalState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, switchMap, tap } from 'rxjs';
 
+
 // Define a type for our location data
 export interface Location {
   id: string;

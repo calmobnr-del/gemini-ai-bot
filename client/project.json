@@ -21,7 +21,7 @@
             "input": "client/public"
           }
         ],
-        "styles": ["client/src/styles.scss"]
+        "styles": ["client/src/styles.scss", "node_modules/maplibre-gl/dist/maplibre-gl.css"]
       },
       "configurations": {
         "production": {

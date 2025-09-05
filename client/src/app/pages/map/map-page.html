@@ -3,8 +3,14 @@
     [style]="mapStyle()"
     [zoom]="[10]"
     [center]="initialCenter"
+    (mapLoad)="onMapLoad($event)"
   >
-    <mgl-control mglNavigation position="top-right"></mgl-control>
+    <mgl-control mglNavigation position="bottom-left"></mgl-control>
+
+    @if (markerPosition()) {
+    <mgl-marker   [lngLat]="markerPosition()">
+    </mgl-marker>
+    }
 
     @for (location of mapStore.locations(); track location.id) {
       <mgl-marker [lngLat]="[location.longitude, location.latitude]">
