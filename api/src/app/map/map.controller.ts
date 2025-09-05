@@ -32,6 +32,6 @@ export class MapController {
     `;
 
     // The Gemini service will return the parsed JSON from the AI's response
-    return this.geminiAiService.generateText(prompt);
+    return this.geminiAiService.parseCoordinates(prompt);
   }
 }

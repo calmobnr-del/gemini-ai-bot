@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { GeminiAiService } from './gemini-ai.service';
 
 @Module({
-  imports: [ConfigModule], // Import ConfigModule so GeminiAiService can use ConfigService
+  imports: [ConfigModule],
   providers: [GeminiAiService],
   exports: [GeminiAiService], // Export the service so other modules can import it
 })

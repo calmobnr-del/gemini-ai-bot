@@ -5,3 +5,9 @@ export class GetCoordinatesDto {
   @IsNotEmpty()
   placeName: string;
 }
+
+
+export class CoordinatesResponseDto {
+  latitude: number;
+  longitude: number;
+}

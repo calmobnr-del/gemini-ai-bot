@@ -1,6 +1,7 @@
 import { Injectable, InternalServerErrorException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { firstValueFrom } from 'rxjs';
+import * as fs from 'fs/promises';
+import * as path from 'path';
 import axios from 'axios';
 
 @Injectable()
@@ -8,12 +9,12 @@ export class MapService {
   constructor(private readonly httpService: HttpService) {}
 
   async getMapStyle(): Promise<any> {
-    const styleUrl = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
     try {
-      const response = await firstValueFrom(
-        this.httpService.get(styleUrl)
-      );
-      return response.data;
+      // This path correctly finds the file in the 'assets' folder
+      // const filePath = path.join(__dirname, '..', '..', 'assets', 'style.json');
+      const filePath = path.join(process.cwd(), 'dist/api/assets/style.json');
+      const fileContents = await fs.readFile(filePath, 'utf-8');
+      return JSON.parse(fileContents);
     } catch (error) {
       this.handleHttpError(error);
     }
