@@ -1,5 +1,8 @@
 <div class="container mx-auto p-4   ">
 
+<!--  <lib-bot-history-item [message]="store.state.selectedSession()"></lib-bot-history-item>-->
+
+
   @if (store.state.selectedSession(); as session) {
     <div class="flex-shrink-0 border-b pb-2 mb-4">
       <h1 class="text-xl font-bold text-gray-800">
@@ -21,18 +24,26 @@
         </div>
       }
 
+<!--      @if (message.sender === 'Bot' && message.response) {-->
+<!--        <div class="flex justify-start">-->
+<!--          <div class="bg-gray-100 text-gray-800 rounded-lg p-3 ">-->
+<!--            <div class="space-y-2">-->
+<!--              <p class="">{{ message.response.introduction }}</p>-->
+<!--              @for (topic of message.response.topics; track topic.title) {-->
+<!--                <div class="pt-2 mt-2 border-t border-gray-200">-->
+<!--                  <h3 class="font-bold text-gray-900">{{ topic.title }}</h3>-->
+<!--                  <p class="text-sm">{{ topic.description }}</p>-->
+<!--                </div>-->
+<!--              }-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      }-->
+
       @if (message.sender === 'Bot' && message.response) {
-        <div class="flex justify-start">
+        <div class="mr-10">
           <div class="bg-gray-100 text-gray-800 rounded-lg p-3 ">
-            <div class="space-y-2">
-              <p class="">{{ message.response.introduction }}</p>
-              @for (topic of message.response.topics; track topic.title) {
-                <div class="pt-2 mt-2 border-t border-gray-200">
-                  <h3 class="font-bold text-gray-900">{{ topic.title }}</h3>
-                  <p class="text-sm">{{ topic.description }}</p>
-                </div>
-              }
-            </div>
+            <div class="prose" [innerHTML]="message.response"></div>
           </div>
         </div>
       }

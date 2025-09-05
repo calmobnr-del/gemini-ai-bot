@@ -2,11 +2,12 @@ import { Component, effect, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BotStore } from '../../store/bot.store';
 import { CommonModule } from '@angular/common';
+import { HistoryDataItem } from '@gemini-ai-bot/ui';
 
 @Component({
   selector: 'app-bot-session-detail-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, HistoryDataItem],
   templateUrl: './session-detail-page.html',
   styleUrl: './session-detail-page.css',
 })

@@ -1,4 +1,4 @@
-import { Component, contentChild, input, TemplateRef } from '@angular/core';
+import { Component, contentChild, effect, input, TemplateRef } from '@angular/core';
 import { ChatSession } from '../../models';
 import { DatePipe, NgTemplateOutlet } from '@angular/common';
 
@@ -9,7 +9,7 @@ import { DatePipe, NgTemplateOutlet } from '@angular/common';
   styleUrl: './history-data-item.component.css',
 })
 export class HistoryDataItem {
-  message = input<ChatSession | undefined>(undefined);
+  message = input<ChatSession | null |  undefined>(undefined);
   short = input<boolean>(false);
 
   readonly contentBtnTpl = contentChild('contentBtnTpl', { read: TemplateRef });

@@ -1,4 +1,4 @@
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { BotStore } from '../../store/bot.store';
 import { Router } from '@angular/router';
 import { HistoryDataItem } from '@gemini-ai-bot/ui';
@@ -16,9 +16,6 @@ export class HistoryPage implements OnInit {
   public state = this.store.state;
 
   constructor() {
-    effect(() => {
-      console.log(this.state());
-    });
   }
 
   ngOnInit(): void {

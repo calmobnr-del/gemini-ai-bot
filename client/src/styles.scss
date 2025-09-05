@@ -3,3 +3,20 @@
 @tailwind utilities;
 
 /* You can add global styles to this file, and also import other style files */
+@layer base {
+  /* Restores default styles for unordered lists */
+  ul {
+    list-style-type: disc; /* Adds the bullets back */
+    padding-left: 40px;  /* Adds the standard indentation (equivalent to pl-10) */
+    margin-top: 1.25rem;    /* Adds vertical space (equivalent to my-5) */
+    margin-bottom: 1.25rem; /* Adds vertical space (equivalent to my-5) */
+  }
+
+  /* Restores default styles for ordered lists */
+  ol {
+    list-style-type: decimal; /* Adds the numbers back */
+    padding-left: 40px;     /* Adds the standard indentation */
+    margin-top: 1.25rem;       /* Adds vertical space */
+    margin-bottom: 1.25rem;    /* Adds vertical space */
+  }
+}

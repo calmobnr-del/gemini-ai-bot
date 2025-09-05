@@ -1,33 +1,27 @@
-
+// This is the main response from the chat endpoint
 export interface ChatResponse {
-  reply: Reply
-  sessionId: string
+  reply: string; // The reply is now just a string
+  sessionId: string;
 }
 
+// These two interfaces are NO LONGER NEEDED, you can delete them.
+// export interface Reply { ... }
+// export interface Topic { ... }
 
-export interface Reply {
-  introduction: string
-  topics: Topic[]
-}
-
-export interface Topic {
-  title: string
-  description: string
-}
-
-
+// This represents a single message in the UI
 export interface ChatMessage {
   sender: 'User' | 'Bot';
-  request?: string; // Make text optional
-  response?: Reply; // Make response optional
+  request?: string;
+  response?: string; // The response is now a string
 }
 
+// This represents a full session fetched from the database
 export interface ChatSession {
   id: string;
   createdAt: string;
   messages: {
     id: number;
     request: string;
-    response: Reply;
+    response: string; // The response for each message is also a string
   }[];
 }
