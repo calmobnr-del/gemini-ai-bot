@@ -58,7 +58,9 @@ export class BotStore {
       .getAllSessions()
       .pipe(
         tap({
-          next: (sessions) => patchState(this.state, { loading: false, sessions }),
+          next: (sessions) => {
+            return  patchState(this.state, { loading: false, sessions })
+          },
           error: (e) => patchState(this.state, { loading: false, error: e.message }),
         }),
       )

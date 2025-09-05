@@ -37,8 +37,6 @@ export class MapPage implements OnInit {
   mapStyle = toSignal(this.mapService.getMapStyle());
 
   onMapLoad(mapInstance: Map) {
-    console.log('Map is fully loaded and instance is available:', mapInstance);
-    // Now it's safe to pass the instance to your service
     this.mapService.setMap(mapInstance);
   }
 
@@ -55,7 +53,6 @@ export class MapPage implements OnInit {
   handleLocationSubmit(formValue: LocationFormValue) {
     this.mapService.getCoordinatesForPlace(formValue.name).subscribe({
       next: (coords) => {
-        console.log('Received coordinates from backend:', coords);
 
         this.markerPosition.set([coords.longitude, coords.latitude]);
         this.mapService.flyTo([coords.longitude, coords.latitude], 15);

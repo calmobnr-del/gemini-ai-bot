@@ -40,6 +40,7 @@
     "pg": "^8.16.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~7.8.0",
+    "sanitize-html": "^2.17.0",
     "typeorm": "^0.3.26",
     "zone.js": "~0.15.0"
   },
@@ -69,6 +70,7 @@
     "@swc/helpers": "~0.5.11",
     "@types/jest": "^30.0.0",
     "@types/node": "~18.16.9",
+    "@types/sanitize-html": "^2.16.0",
     "@typescript-eslint/utils": "^8.29.0",
     "angular-eslint": "^20.0.0",
     "autoprefixer": "^10.4.0",

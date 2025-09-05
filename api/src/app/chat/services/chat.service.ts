@@ -5,6 +5,7 @@ import { ChatSession } from '../entities/chat-session.entity';
 import { Message } from '../entities/message.entity';
 import { GeminiAiService, HistoryMessage } from '../../gemini/gemini-ai.service';
 import { logger } from 'nx/src/utils/logger';
+import { HtmlSanitizerService } from './html-sanitizer.service';
 
 @Injectable()
 export class ChatService {
@@ -13,7 +14,8 @@ export class ChatService {
     private readonly sessionRepository: Repository<ChatSession>,
     @InjectRepository(Message)
     private readonly messageRepository: Repository<Message>,
-    private readonly geminiAiService: GeminiAiService
+    private readonly geminiAiService: GeminiAiService,
+    private readonly htmlSanitizerService: HtmlSanitizerService,
   ) {}
 
   async processMessage(userMessage: string, sessionId?: string) {
@@ -28,22 +30,30 @@ export class ChatService {
       await this.sessionRepository.save(session);
     }
 
-    // 2. Fetch the message history for context
     const history = await this.messageRepository.find({
       where: { session: { id: session.id } },
       order: { id: 'ASC' },
     });
 
-    // 3. Format the history for the Gemini API
-    const formattedHistory: HistoryMessage[] = history.flatMap(msg => [
+    const formattedHistory: HistoryMessage[] = history.flatMap((msg) => [
       { role: 'user', parts: [{ text: msg.request }] },
-      { role: 'model', parts: [{ text: JSON.stringify(msg.response) }] }
+      { role: 'model', parts: [{ text: JSON.stringify(msg.response) }] },
     ]);
 
-    // 4. Get the AI reply using the prompt and the history
-    const aiReply = await this.geminiAiService.generateText(userMessage, formattedHistory);
+    // 1. Create a detailed system prompt
+    const fullPrompt = `
+    You are a helpful assistant. Please provide a clear and concise response to the following user message.
+    Format your response using semantic HTML tags like <p>, <ul>, <li>, and <strong>.
+    Do not include any <script> tags or inline JavaScript.
+    User Message: "${userMessage}"
+  `;
 
-    // 5. Save the new message to the database
+    const rawText = await this.geminiAiService.generateText(fullPrompt, formattedHistory);
+
+    const cleanedText = this.htmlSanitizerService.parseAiResponse(rawText);
+
+    const aiReply = this.htmlSanitizerService.sanitize(cleanedText);
+
     const message = this.messageRepository.create({
       request: userMessage,
       response: aiReply,
@@ -51,7 +61,6 @@ export class ChatService {
     });
     await this.messageRepository.save(message);
 
-    // 6. Return the reply and the session ID
     return {
       reply: aiReply,
       sessionId: session.id,

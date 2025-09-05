@@ -1,4 +1,4 @@
-import { Injectable, Logger  } from '@nestjs/common';
+import { Injectable, Logger, ServiceUnavailableException } from '@nestjs/common';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { ConfigService } from '@nestjs/config';
 import { ParserService } from '../parser/parser.service';
@@ -35,14 +35,15 @@ export class GeminiAiService {
       const result = await chat.sendMessage(prompt);
 
       const response = result.response;
-      const rawText = response.text();
 
-      return this.parserService.parse(rawText);
+      return response.text();
     } catch (error) {
       console.error('Error generating text:', error);
       throw new Error('Failed to generate text with Gemini AI.');
     }
   }
+
+
 
 
   async parseCoordinates(prompt: string): Promise<CoordinatesResponseDto> {
