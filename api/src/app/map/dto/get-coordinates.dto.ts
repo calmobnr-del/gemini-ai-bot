@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, Max, Min } from 'class-validator';
 
 export class GetCoordinatesDto {
   @IsString()
@@ -8,6 +8,13 @@ export class GetCoordinatesDto {
 
 
 export class CoordinatesResponseDto {
+  @IsNumber()
+  @Min(-90)
+  @Max(90)
   latitude: number;
+
+  @IsNumber()
+  @Min(-180)
+  @Max(180)
   longitude: number;
 }

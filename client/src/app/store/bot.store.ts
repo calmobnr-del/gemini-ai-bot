@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { patchState, signalState } from '@ngrx/signals';
 import { BotService } from './bot.service';
 import { tap } from 'rxjs';
-import { ChatMessage, ChatSession } from '@gemini-ai-bot/ui';
+import { ChatMessage, ChatSession } from '@gemini-ai-bot/interfaces';
 
 interface BotState {
   messages: ChatMessage[];

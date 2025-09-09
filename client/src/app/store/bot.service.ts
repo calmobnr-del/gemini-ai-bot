@@ -2,7 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { ChatResponse, ChatSession } from '@gemini-ai-bot/ui';
+import { ChatResponse, ChatSession } from '@gemini-ai-bot/interfaces';
+
 
 
 

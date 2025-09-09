@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@gemini-ai-bot/interfaces": ["shared/interfaces/src/index.ts"],
       "@gemini-ai-bot/ui": ["shared/src/index.ts"]
     }
   },

@@ -1,39 +1,42 @@
-import { Injectable, InternalServerErrorException, NotFoundException, ServiceUnavailableException } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import axios from 'axios';
+import { GeminiAiService } from '../gemini/gemini-ai.service'; // Import the service
+import { CoordinatesResponseDto } from './dto/get-coordinates.dto';
 
 @Injectable()
 export class MapService {
-  constructor(private readonly httpService: HttpService) {}
+  // It only needs to inject the GeminiAiService
+  constructor(private readonly geminiAiService: GeminiAiService) {}
 
   async getMapStyle(): Promise<any> {
     try {
-      // This path correctly finds the file in the 'assets' folder
-      // const filePath = path.join(__dirname, '..', '..', 'assets', 'style.json');
       const filePath = path.join(process.cwd(), 'dist/api/assets/style.json');
       const fileContents = await fs.readFile(filePath, 'utf-8');
       return JSON.parse(fileContents);
     } catch (error) {
-      this.handleHttpError(error);
+      console.error('Error reading map style:', error);
+      throw new InternalServerErrorException('Could not load map style configuration.');
     }
   }
 
-  private handleHttpError(error: unknown): never {
-    if (axios.isAxiosError(error) && error.response) {
-      const status = error.response.status;
-      const message = `Failed to fetch map style: External service returned status ${status}`;
+  // New method to create the prompt and delegate to GeminiAiService
+  async getCoordinatesForPlace(placeName: string): Promise<CoordinatesResponseDto> {
+    const prompt = `
+      Find the geographic coordinates (latitude and longitude) for the following place: "${placeName}".
+      Please respond with ONLY a raw JSON object in the format: {"latitude": number, "longitude": number}
+    `;
+    return this.geminiAiService.getCoordinates(prompt);
+  }
 
-      if (status === 404) {
-        throw new NotFoundException(message);
-      }
-      if (status >= 500) {
-        throw new ServiceUnavailableException(message);
-      }
-    }
-
-    // For any other errors, throw a generic server error
-    throw new InternalServerErrorException('An unexpected error occurred while fetching the map style.');
+  // New method to create the prompt and delegate to GeminiAiService
+  async getGeometryForPlace(placeName: string): Promise<any> {
+    const prompt = `
+    Generate a detailed, high-resolution GeoJSON Feature object representing the accurate boundary of the following place: "${placeName}".
+    The 'geometry' must be a Polygon or MultiPolygon, NOT a simple rectangular bounding box. Use a 10-15 number of coordinate points to more accurately represent the real-world shape.
+    The 'properties' property should be an empty object.
+    Respond with ONLY the raw, minified JSON for the GeoJSON Feature object.
+  `;
+    return this.geminiAiService.getGeometry(prompt);
   }
 }

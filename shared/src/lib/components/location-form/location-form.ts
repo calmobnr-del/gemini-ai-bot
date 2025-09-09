@@ -1,9 +1,8 @@
 import { Component, inject, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { LocationFormValue } from '@gemini-ai-bot/interfaces';
 
-export interface LocationFormValue {
-  name: string;
-}
+
 
 @Component({
   selector: 'lib-bot-location-form',
@@ -18,7 +17,8 @@ export class LocationForm {
 
   // Define the form structure with a single, required 'name' field
   locationForm = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3)]],
+    placeName: ['', [Validators.required, Validators.minLength(3)]],
+    getGeometry: false,
   });
 
   // When submitted, just log the form's current value to the console

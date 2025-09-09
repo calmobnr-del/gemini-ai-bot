@@ -1,6 +1,6 @@
 import { Component, contentChild, effect, input, TemplateRef } from '@angular/core';
-import { ChatSession } from '../../models';
 import { DatePipe, NgTemplateOutlet } from '@angular/common';
+import { ChatSession } from '@gemini-ai-bot/interfaces';
 
 @Component({
   selector: 'lib-bot-history-item',

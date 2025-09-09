@@ -6,11 +6,16 @@
     <input
       id="location-name"
       type="text"
-      formControlName="name"
+      formControlName="placeName"
       placeholder="put the place name"
       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
     />
   </div>
+
+  <label class="my-3 inline-flex items-center text-gray-200 text-sm ">
+    <input type="checkbox" formControlName="getGeometry" class="mr-2">
+    Get geometry
+  </label>
 
   <button
     type="submit"

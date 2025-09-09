@@ -1,38 +1,59 @@
-  <mgl-map
-    class="map"
-    [style]="mapStyle()"
-    [zoom]="[10]"
-    [center]="initialCenter"
-    (mapLoad)="onMapLoad($event)"
-  >
-    <mgl-control mglNavigation position="bottom-left"></mgl-control>
+<mgl-map
+  class="map"
+  [style]="mapStyle()"
+  [zoom]="[10]"
+  [center]="initialCenter"
+  (mapLoad)="onMapLoad($event)"
+>
+  <mgl-control mglNavigation position="bottom-left"></mgl-control>
 
-    @if (markerPosition()) {
-    <mgl-marker   [lngLat]="markerPosition()">
-    </mgl-marker>
-    }
-
-    @for (location of mapStore.locations(); track location.id) {
-      <mgl-marker [lngLat]="[location.longitude, location.latitude]">
-        <div class="marker" [title]="location.name"></div>
-      </mgl-marker>
-    }
-  </mgl-map>
-
-
-  <div class="location absolute top-4 right-4 z-10 bg-white p-2 rounded-lg shadow-lg  w-32">
-
-    <button
-      (click)="toggleOpenForm()"
-      class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300">
-      {{ openedForm() ? 'Close' : 'Search' }}
-    </button>
-
-    @if(openedForm()) {
-      <lib-bot-location-form class="form block mt-4 w-60"  (locationSubmit)="handleLocationSubmit($event)"></lib-bot-location-form>
-    }
-  </div>
-
-  @if (mapStore.isLoading()) {
-    <div class="loading-overlay">Loading locations...</div>
+  @if (markerPosition()) {
+    <mgl-marker [lngLat]="markerPosition()"></mgl-marker>
   }
+
+  @if (geometryData()) {
+    <mgl-geojson-source id="geometry-source" [data]="geometryData()">
+    </mgl-geojson-source>
+
+    <mgl-layer
+      id="geometry-fill"
+      type="fill"
+      source="geometry-source"
+      [paint]="{ 'fill-color': '#088', 'fill-opacity': 0.4 }"
+    ></mgl-layer>
+
+    <mgl-layer
+      id="geometry-outline"
+      type="line"
+      source="geometry-source"
+      [paint]="{ 'line-color': '#000', 'line-width': 2 }"
+    ></mgl-layer>
+  }
+
+
+<!--  @for (location of mapStore.locations(); track location.id) {-->
+<!--    <mgl-marker [lngLat]="[location.longitude, location.latitude]">-->
+<!--      <div class="marker" [title]="location.name"></div>-->
+<!--    </mgl-marker>-->
+<!--  }-->
+</mgl-map>
+
+<div class="location absolute top-4 right-4 z-10 bg-white p-2 rounded-lg shadow-lg w-32">
+  <button
+    (click)="toggleOpenForm()"
+    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300"
+  >
+    {{ openedForm() ? 'Close' : 'Search' }}
+  </button>
+
+  @if (openedForm()) {
+    <lib-bot-location-form
+      class="form block mt-4 w-60"
+      (locationSubmit)="handleLocationSubmit($event)"
+    ></lib-bot-location-form>
+  }
+</div>
+
+@if (mapStore.isLoading()) {
+  <div class="loading-overlay">Loading locations...</div>
+}
