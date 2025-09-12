@@ -27,6 +27,10 @@ export const appRoutes: Route[] = [
       import('./pages/session-detail-page/session-detail-page').then((m) => m.SessionDetail),
   },
   {
+    path: 'games',
+    loadComponent: () => import('./pages/games/games-page').then((m) => m.GamesPage),
+  },
+  {
     path: '**',
     redirectTo: '', // Redirect to the home path
     pathMatch: 'full',

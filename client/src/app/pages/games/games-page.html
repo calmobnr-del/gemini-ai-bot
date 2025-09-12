@@ -1,0 +1,21 @@
+<div class="container mx-auto p-4">
+  <div class="controls mb-4 flex items-center space-x-2">
+    @if (gameStatus() === 'waiting' || gameStatus() === 'stopped') {
+      <button (click)="startGame()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+        {{ gameStatus() === 'waiting' ? 'Start Game' : 'Resume' }}
+      </button>
+    }
+    @if (gameStatus() === 'playing') {
+      <button (click)="stopGame()" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+        Stop
+      </button>
+    }
+    @if (gameStatus() === 'gameOver') {
+      <button (click)="startGame()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Play Again
+      </button>
+    }
+  </div>
+
+  <div class="game-container" #sketchHost></div>
+</div>
