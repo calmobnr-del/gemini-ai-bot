@@ -23,5 +23,5 @@ COPY --from=builder /app/dist/api ./
 COPY --from=builder /app/package*.json ./
 RUN npm install --omit=dev
 
-EXPOSE 3000
+EXPOSE 3005
 CMD ["node", "main.js"]

@@ -48,7 +48,7 @@ docker-compose up --build -d
 
 ```
 
-* The API will be available at `http://localhost:3000`.
+* The API will be available at `http://localhost:3005`.
 
 * To run the Angular frontend, open a new terminal and run:
 
@@ -58,7 +58,7 @@ docker-compose up --build -d
   
   ```
 
-* The client application will be available at `http://localhost:4200`.
+* The client application will be available at `http://localhost:4205`.
 
 ## Docker Commands 🐳
 

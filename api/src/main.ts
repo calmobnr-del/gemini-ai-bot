@@ -12,7 +12,7 @@ import { GlobalErrorHandler } from './app/common/filters/global-error-handler.fi
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 3005;
 
   app.enableCors();
 
@@ -20,7 +20,7 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
 
-   app.useGlobalFilters(new GlobalErrorHandler());
+  app.useGlobalFilters(new GlobalErrorHandler());
 
   // --- Swagger Configuration ---
   const config = new DocumentBuilder()
@@ -34,9 +34,7 @@ async function bootstrap() {
   // -----------------------------
 
   await app.listen(port);
-  Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
-  );
+  Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);
 }
 
 bootstrap();

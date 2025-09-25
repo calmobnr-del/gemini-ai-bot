@@ -19,7 +19,7 @@ services:
     env_file: ../.env # <-- This correctly loads all variables
     container_name: gemini-api
     ports:
-      - '3000:3000'
+      - '3000:3005'
     depends_on:
       db:
         condition: service_healthy

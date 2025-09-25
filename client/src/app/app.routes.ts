@@ -31,6 +31,10 @@ export const appRoutes: Route[] = [
     loadComponent: () => import('./pages/games/games-page').then((m) => m.GamesPage),
   },
   {
+    path: 'study',
+    loadComponent: () => import('./pages/study-english/study-english-page').then((m) => m.StudyEnglishPage),
+  },
+  {
     path: '**',
     redirectTo: '', // Redirect to the home path
     pathMatch: 'full',
