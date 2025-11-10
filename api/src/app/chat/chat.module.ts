@@ -7,9 +7,14 @@ import { Message } from './entities/message.entity';
 import { ChatSession } from './entities/chat-session.entity';
 import { ParserModule } from '../parser/parser.module';
 import { HtmlSanitizerService } from './services/html-sanitizer.service';
+import { OpenAiModule } from '../openai/openai.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ChatSession, Message]), ParserModule],
+  imports: [
+    TypeOrmModule.forFeature([ChatSession, Message]),
+    ParserModule,
+    OpenAiModule
+  ],
   controllers: [ChatController],
   providers: [ChatService, GeminiAiService, HtmlSanitizerService],
 })

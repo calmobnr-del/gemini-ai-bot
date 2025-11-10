@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { LocationsModule } from './locations/locations.module';
 import { MapModule } from './map/map.module';
+import { UktzedModule } from './uktzd/uktzd.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { MapModule } from './map/map.module';
     ChatModule,
     MapModule,
     LocationsModule,
+    UktzedModule
   ],
   controllers: [AppController],
   providers: [],

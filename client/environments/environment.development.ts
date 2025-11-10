@@ -5,4 +5,5 @@ export const environment = {
   apiUrl: apiUrl,
   apiUrlChat: `${apiUrl}/chat`,
   apiMapUrl: `${apiUrl}/map`,
+  uktzedApiUrl: `${apiUrl}/uktzed`,
 };

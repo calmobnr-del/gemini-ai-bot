@@ -6,7 +6,7 @@ import { Message } from '../entities/message.entity';
 import { GeminiAiService } from '../../gemini/gemini-ai.service';
 import { HtmlSanitizerService } from './html-sanitizer.service';
 import { HistoryMessage } from '@gemini-ai-bot/interfaces';
-
+import { OpenAiService } from '../../openai/openai.service';
 
 
 @Injectable()
@@ -18,6 +18,7 @@ export class ChatService {
     private readonly messageRepository: Repository<Message>,
     private readonly geminiAiService: GeminiAiService,
     private readonly htmlSanitizerService: HtmlSanitizerService,
+    private readonly openAiService: OpenAiService,
   ) {}
 
   async processMessage(userMessage: string, sessionId?: string) {
@@ -50,7 +51,15 @@ export class ChatService {
     User Message: "${userMessage}"
   `;
 
-    const rawText = await this.geminiAiService.generateText(fullPrompt, formattedHistory);
+    let rawText: string;
+    try {
+      // Try Gemini first
+      rawText = await this.geminiAiService.generateText(fullPrompt, formattedHistory);
+    } catch (geminiError) {
+      console.warn('Gemini failed, trying OpenAI as a fallback...', geminiError.message);
+      // If Gemini fails, try OpenAI
+      rawText = await this.openAiService.generateText(fullPrompt, formattedHistory);
+    }
 
     const cleanedText = this.htmlSanitizerService.parseAiResponse(rawText);
 

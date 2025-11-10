@@ -17,6 +17,11 @@ export const appRoutes: Route[] = [
       import('./pages/chat/chat-page').then((m) => m.ChatPage),
   },
   {
+    path: 'uktzed',
+    loadComponent: () =>
+      import('./pages/uktzed/uktzed-page').then((m) => m.UktzedPage),
+  },
+  {
     path: 'history',
     loadComponent: () =>
       import('./pages/history/history-page').then((m) => m.HistoryPage),
